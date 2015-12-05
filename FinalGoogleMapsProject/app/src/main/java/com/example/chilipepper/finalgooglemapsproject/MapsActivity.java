@@ -4,11 +4,14 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -59,61 +62,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+
         gMap = googleMap;
         JSONParser jParser = new JSONParser();
         JSONArray json = jParser.getJSONFromUrl(url);
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
 
 
 
             try {
                 JSONObject c = json.getJSONObject(i);
                 String vinspectionType = c.getString(inspectionType);
-                String vviolationDescr = c.getString(violationDescr);
+//                String vviolationDescr = c.getString(violationDescr);
                 String vbusinessName = c.getString(businessName);
                 Double vlongitude = Double.parseDouble(c.getString(longitude));
                 Double vlatitude = Double.parseDouble(c.getString(latitude));
+                String crit = "CRITICAL CONTROL POINT";
 
-                //double tolongitude = Double.parseDouble(vlongitude);
-                //double tolatitude = Double.parseDouble(vlatitude);
+                if(vinspectionType.equalsIgnoreCase(crit))
+                {
+                    // making marker orange if it is a critical control point
+                    LatLng businessMarker = new LatLng(vlatitude,vlongitude);
+                    gMap.addMarker(new MarkerOptions().position(businessMarker).title(vbusinessName).snippet(vinspectionType).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    gMap.moveCamera(CameraUpdateFactory.newLatLng(businessMarker));
 
-
-                LatLng businessMarker = new LatLng(vlatitude,vlongitude);
-                gMap.addMarker(new MarkerOptions().position(businessMarker).title(vbusinessName).snippet(vviolationDescr));
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(businessMarker));
-
-/*
-                Marker marker =  gMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(vlongitude, vlatitude))
-                        .draggable(true)
-                        .title(vbusinessName));
-                jsonlist.add(marker);
-*/
-
-/*
-
-                HashMap<String, String> map = new HashMap<String, String>();
-
-                map.put(inspectionType, vinspectionType);
-                map.put(violationDescr, vviolationDescr);
-                map.put(businessName, vbusinessName);
+                }
+                else {
+                    // if it is a standard inspection it'll be yellow
+                    LatLng businessMarker = new LatLng(vlatitude, vlongitude);
+                    gMap.addMarker(new MarkerOptions().position(businessMarker).title(vbusinessName).snippet(vinspectionType).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                    gMap.moveCamera(CameraUpdateFactory.newLatLng(businessMarker));
+                }
 
 
-                jsonlist.add(map);
-                */
             } catch (JSONException e)
             {
                 e.printStackTrace();
             }
+
+
         }
 
-        /*
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(39.1311062189239, -84.5175747546627);
-        gMap.addMarker(new MarkerOptions().position(sydney).title("Test Marker"));
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        */
+
     }
 
 
