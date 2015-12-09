@@ -132,14 +132,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     // making marker orange if it is a critical control point
                     blipList.add(blip);
                     LatLng businessMarker = new LatLng(blip.get_latitude(),blip.get_longitude());
-                    gMap.addMarker(new MarkerOptions().position(businessMarker).title(blip.get_businessName()).snippet(blip.get_inspectionType()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    gMap.addMarker(new MarkerOptions().position(businessMarker).title(blip.get_businessName()).snippet(blip.get_violationDescr()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
                     gMap.moveCamera(CameraUpdateFactory.newLatLng(businessMarker));
 
                 }
                 else {
                     // if it is a standard inspection it'll be yellow
                     LatLng businessMarker = new LatLng(blip.get_latitude(),blip.get_longitude());
-                    gMap.addMarker(new MarkerOptions().position(businessMarker).title(blip.get_businessName()).snippet(blip.get_inspectionType()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                    gMap.addMarker(new MarkerOptions().position(businessMarker).title(blip.get_businessName()).snippet(blip.get_violationDescr()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
                     gMap.moveCamera(CameraUpdateFactory.newLatLng(businessMarker));
                 }
 
