@@ -180,7 +180,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         JSONParser jParser = new JSONParser();
         JSONArray json = jParser.getJSONFromUrl(url);
 
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < 4000; i++) {
 
             try {
                 JSONObject c = json.getJSONObject(i);
