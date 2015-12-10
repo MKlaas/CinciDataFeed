@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -38,6 +37,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final String inspectionType = "insp_subtype";
     private static final String violationDescr = "violation_description";
+    private static final String actionStatus = "action_status";
     private static final String businessName = "business_name";
     private static final String violationComments = "violation_comments";
     private static final String longitude = "longitude";
@@ -47,8 +47,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String state = "state";
     private static final String recordNum = "recordnum_license";
     private static final String zip = "postal_code";
-
-
 
     ArrayList<Blip> blipList = new ArrayList<Blip>();
     ArrayList<Marker> jsonMarkers = new ArrayList<>();
@@ -83,7 +81,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         MapFragment mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
         mapFragment.getMapAsync(this);
 
-
     }
 
 
@@ -108,57 +105,31 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
             final Blip curBlip = blipList.get(pos);
 
-            final TextView iType = (TextView) view.findViewById(R.id.inspectionType);
+            TextView iType = (TextView) view.findViewById(R.id.inspectionType);
             iType.setText(curBlip.get_inspectionType());
-            final TextView vDesc = (TextView) view.findViewById(R.id.violationDescr);
-            vDesc.setText(curBlip.get_address());
+            TextView vDesc = (TextView) view.findViewById(R.id.businessAddress);
+            vDesc.setText(curBlip.get_address() + ", " + curBlip.get_zip());
             TextView bName = (TextView) view.findViewById(R.id.businessName);
             bName.setText(curBlip.get_businessName());
+            ImageView tImage = (ImageView) view.findViewById(R.id.imageView);
+
+            if (curBlip.get_actionStatus().equalsIgnoreCase("Abated"))
+            {
+                tImage.setImageResource(R.drawable.clean);
+            } else if (curBlip.get_actionStatus().equalsIgnoreCase("Not Abated"))
+            {
+                tImage.setImageResource(R.drawable.td);
+            } else
+            {
+                tImage.setImageResource(R.drawable.tu);
+            }
 
             final Dialog dialog = new Dialog(MainActivity.this);
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    dialog.setContentView(R.layout.view_details);
-                    Button dialogButton = (Button) dialog.findViewById(R.id.btnCancel);
-
-                    TextView dialogName = (TextView) dialog.findViewById(R.id.txtName);
-                    dialogName.setText(curBlip.get_businessName());
-
-                    TextView dialogAddress = (TextView) dialog.findViewById(R.id.txtAddress);
-                    dialogAddress.setText(curBlip.get_address());
-
-                    TextView dialogCity = (TextView) dialog.findViewById(R.id.txtCity);
-                    dialogCity.setText(curBlip.get_city());
-
-                    TextView dialogState = (TextView) dialog.findViewById(R.id.txtState);
-                    dialogState.setText(curBlip.get_state());
-
-                    TextView dialogZip = (TextView) dialog.findViewById(R.id.txtZip);
-                    dialogZip.setText(curBlip.get_zip());
-
-                    TextView dialogRecord = (TextView) dialog.findViewById(R.id.txtRecord);
-                    dialogRecord.setText(curBlip.get_recordNum());
-
-                    TextView dialogViolation = (TextView) dialog.findViewById(R.id.txtViolation);
-                    dialogViolation.setText(curBlip.get_inspectionType());
-
-                    TextView dialogDesc = (TextView) dialog.findViewById(R.id.txtDesc);
-                    dialogDesc.setText(curBlip.get_violationDescr());
-
-                    TextView dialogComments = (TextView) dialog.findViewById(R.id.txtComments);
-                    dialogComments.setText(curBlip.get_violationComments());
-
-                    dialogButton.setText("OK");
-                    dialogButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
+                    openDetails(view, curBlip);
                 }
             });
 
@@ -166,6 +137,28 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
+    }
+
+    /** Called when the user clicks the Add button */
+    public void openDetails(View view, Blip blip) {
+        // Do something in response to button
+
+        ArrayList<String> blipProps = new ArrayList<String>();
+
+        blipProps.add(blip.get_businessName());
+        blipProps.add(blip.get_address());
+        blipProps.add(blip.get_city());
+        blipProps.add(blip.get_state());
+        blipProps.add(blip.get_zip());
+        blipProps.add(blip.get_recordNum());
+        blipProps.add(blip.get_inspectionType());
+        blipProps.add(blip.get_violationDescr());
+        blipProps.add(blip.get_violationComments());
+        blipProps.add(blip.get_actionStatus());
+
+        Intent intent = new Intent(this, BlipActivity.class);
+        intent.putStringArrayListExtra("Blip Properties", blipProps);
+        startActivity(intent);
     }
 
 
@@ -192,7 +185,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             try {
                 JSONObject c = json.getJSONObject(i);
 
-                Blip blip = new Blip(c.getString(inspectionType), c.getString(violationDescr), c.getString(businessName), c.getString(address),
+                Blip blip = new Blip(c.getString(inspectionType), c.getString(violationDescr), c.getString(actionStatus), c.getString(businessName).replace('"', ' ').trim(), c.getString(address),
                         c.getString(city), c.getString(state), c.getString(recordNum), c.getString(zip), c.getString(violationComments),
                         Double.parseDouble(c.getString(longitude)), Double.parseDouble(c.getString(latitude)));
                 String crit = "CRITICAL CONTROL POINT";

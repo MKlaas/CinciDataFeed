@@ -2,15 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:padding="15dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="BusinessName"
         android:id="@+id/txtName"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/detailImage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/actionStatus"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -18,47 +41,88 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Address"
         android:id="@+id/txtAddress"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:textColor="#838383"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="City"
+            android:id="@+id/txtCity"
+            android:textSize="15dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#838383" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="State"
+            android:id="@+id/txtState"
+            android:textSize="15dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#838383" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zip"
+            android:id="@+id/txtZip"
+            android:textSize="15dp"
+            android:textColor="#838383" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="City"
-        android:id="@+id/txtCity"
-        android:textSize="15dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="State"
-        android:id="@+id/txtState"
-        android:textSize="15dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Record ID: "
+            android:id="@+id/textView" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Zip"
-        android:id="@+id/txtZip"
-        android:textSize="15dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="RecordNum"
+            android:id="@+id/txtRecord"
+            android:textSize="15dp" />
+    </LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="RecordNum"
-        android:id="@+id/txtRecord"
-        android:textSize="15dp" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Violation"
-        android:id="@+id/txtViolation"
-        android:textSize="15dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Violation: "
+            android:id="@+id/textView2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Violation"
+            android:id="@+id/txtViolation"
+            android:textSize="15dp"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -67,7 +131,7 @@
         android:text="ViolationDesc"
         android:id="@+id/txtDesc"
         android:layout_weight="0.36"
-        android:textSize="10dp" />
+        android:textSize="13dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -76,12 +140,15 @@
         android:text="ViolationComments"
         android:id="@+id/txtComments"
         android:layout_weight="0.32"
-        android:textSize="10dp" />
+        android:textSize="12dp"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/btnCancel"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorAccent"
+        android:textColor="#ffffff" />
 </LinearLayout>

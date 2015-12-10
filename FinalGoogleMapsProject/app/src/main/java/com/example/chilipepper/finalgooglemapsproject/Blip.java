@@ -5,10 +5,10 @@ package com.example.chilipepper.finalgooglemapsproject;
  */
 public class Blip {
 
-    public String _inspectionType, _violationDescr, _businessName, _address, _city, _state, _recordNum, _zip, _violationComments;
+    public String _inspectionType, _violationDescr, _businessName, _address, _city, _state, _recordNum, _zip, _violationComments, _actionStatus;
     public double _longitude, _latitude;
 
-    public Blip (String inspectionType, String violationDescr, String businessName, String address, String city, String state, String recordNum, String zip, String violationComments, double longitude, double latitude )
+    public Blip (String inspectionType, String violationDescr, String actionStatus, String businessName, String address, String city, String state, String recordNum, String zip, String violationComments, double longitude, double latitude )
     {
         _inspectionType = inspectionType;
         _violationDescr = violationDescr;
@@ -21,6 +21,7 @@ public class Blip {
         _recordNum = recordNum;
         _zip = zip;
         _violationComments = violationComments;
+        _actionStatus = actionStatus;
     }
 
     public String get_inspectionType() { return _inspectionType; }
@@ -34,6 +35,7 @@ public class Blip {
     public String get_violationComments() { return _violationComments; }
     public double get_longitude() { return _longitude; }
     public double get_latitude() { return _latitude; }
+    public String get_actionStatus() { return _actionStatus; }
 
 
 }
